@@ -361,9 +361,7 @@
         <section id="hero">
             <div class="carousel-container">
                 <ul class="carousel-track">
-                    <li class="carousel-slide"><img src="https://picsum.photos/seed/hero1/1920/1080" alt="Hero Image 1"></li>
-                    <li class="carousel-slide"><img src="https://picsum.photos/seed/hero2/1920/1080" alt="Hero Image 2"></li>
-                    <li class="carousel-slide"><img src="https://picsum.photos/seed/hero3/1920/1080" alt="Hero Image 3"></li>
+                    <!-- Slides will be populated by JavaScript -->
                 </ul>
             </div>
             <button class="carousel-nav prev"><span class="material-symbols-outlined">arrow_back_ios</span></button>
@@ -500,9 +498,42 @@
                 }
             });
 
+            // --- IMAGE URLS ---
+            const imageUrls = [
+                'https://raw.githubusercontent.com/niwde787/portfolio/images/Xample01.jpg',
+                'https://raw.githubusercontent.com/niwde787/portfolio/images/Xample02.jpg',
+                'https://raw.githubusercontent.com/niwde787/portfolio/images/Xample03.jpg',
+                'https://raw.githubusercontent.com/niwde787/portfolio/images/Xample04.jpg',
+                'https://raw.githubusercontent.com/niwde787/portfolio/images/Xample05.jpg'
+            ];
+
+            // Function to shuffle array
+            const shuffleArray = (array) => {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            };
+            
+            const shuffledImages = shuffleArray([...imageUrls]);
+
+
             // --- HERO CAROUSEL LOGIC ---
             const track = document.querySelector('.carousel-track');
             if (track) {
+                // Populate carousel slides
+                const heroImages = shuffledImages.slice(0, 3); // Use first 3 shuffled images for hero
+                heroImages.forEach(url => {
+                    const li = document.createElement('li');
+                    li.className = 'carousel-slide';
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.alt = 'Hero Image';
+                    li.appendChild(img);
+                    track.appendChild(li);
+                });
+
                 const slides = Array.from(track.children);
                 const nextButton = document.querySelector('.carousel-nav.next');
                 const prevButton = document.querySelector('.carousel-nav.prev');
@@ -513,15 +544,13 @@
                 const setupCarousel = () => {
                     if (slides.length === 0) return;
                     slideWidth = slides[0].getBoundingClientRect().width;
-                    slides.forEach((slide, index) => {
-                        slide.style.left = slideWidth * index + 'px';
-                    });
+                    // No need to set left position for flexbox
                     moveToSlide(currentIndex);
                 }
 
                 const moveToSlide = (targetIndex) => {
                     if (!track) return;
-                    track.style.transform = 'translateX(-' + (slideWidth * targetIndex) + 'px)';
+                    track.style.transform = 'translateX(-' + (100 * targetIndex) + '%)';
                     currentIndex = targetIndex;
                 };
                 
@@ -561,10 +590,11 @@
 
             // --- DYNAMIC PORTFOLIO IMAGE LOADING LOGIC ---
             const portfolioImages = document.querySelectorAll('.portfolio-image');
+            const portfolioImageUrls = shuffledImages.slice(3); // Use remaining images for portfolio
 
             portfolioImages.forEach((img, index) => {
-                const randomSeed = Math.floor(Math.random() * 1000) + index;
-                img.src = `https://picsum.photos/seed/${randomSeed}/400/225`;
+                // Loop through available portfolio images
+                img.src = portfolioImageUrls[index % portfolioImageUrls.length];
                 img.onerror = () => {
                     img.src = 'https://placehold.co/400x225/404943/E1E3DF?text=Image+Error';
                 };
