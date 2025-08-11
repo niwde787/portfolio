@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,20 +14,20 @@
     <style>
         /* --- Google Material 3 Color & Style Definitions --- */
         :root {
-            /* Light Theme: Sophisticated Sage & Plum */
-            --md-sys-color-primary: #4A6547;
+            /* Light Theme: Slate & Orange */
+            --md-sys-color-primary: #E65100; /* Orange */
             --md-sys-color-on-primary: #FFFFFF;
-            --md-sys-color-primary-container: #CCEBC4;
-            --md-sys-color-on-primary-container: #092109;
-            --md-sys-color-secondary: #546250;
+            --md-sys-color-primary-container: #FFDCC2;
+            --md-sys-color-on-primary-container: #2E1500;
+            --md-sys-color-secondary: #5C5F62; /* Gray */
             --md-sys-color-on-secondary: #FFFFFF;
-            --md-sys-color-background: #FCFDF7;
-            --md-sys-color-on-background: #1A1C19;
-            --md-sys-color-surface: #F9FAF4;
-            --md-sys-color-on-surface: #1A1C19;
-            --md-sys-color-surface-variant: #DFE4D8;
-            --md-sys-color-on-surface-variant: #424940;
-            --md-sys-color-outline: #73796E;
+            --md-sys-color-background: #F8F9FA; /* Off-white */
+            --md-sys-color-on-background: #1C1B1F; /* Near-black */
+            --md-sys-color-surface: #FFFFFF;
+            --md-sys-color-on-surface: #1C1B1F;
+            --md-sys-color-surface-variant: #E7E0EC;
+            --md-sys-color-on-surface-variant: #49454F;
+            --md-sys-color-outline: #79747E;
             --md-sys-color-shadow: #000000;
 
             /* Typography */
@@ -45,20 +45,20 @@
         }
 
         [data-theme="dark"] {
-            /* Dark Theme: Sophisticated Sage & Plum */
-            --md-sys-color-primary: #B1CEA9;
-            --md-sys-color-on-primary: #1D361C;
-            --md-sys-color-primary-container: #344D31;
-            --md-sys-color-on-primary-container: #CCEBC4;
-            --md-sys-color-secondary: #BCCBB5;
-            --md-sys-color-on-secondary: #273424;
-            --md-sys-color-background: #1A1C19;
-            --md-sys-color-on-background: #E2E3DD;
-            --md-sys-color-surface: #1F241E;
-            --md-sys-color-on-surface: #E2E3DD;
-            --md-sys-color-surface-variant: #424940;
-            --md-sys-color-on-surface-variant: #C3C8BC;
-            --md-sys-color-outline: #8D9387;
+            /* Dark Theme: Slate & Orange */
+            --md-sys-color-primary: #FFB77C; /* Lighter Orange */
+            --md-sys-color-on-primary: #4D2600;
+            --md-sys-color-primary-container: #C97223;
+            --md-sys-color-on-primary-container: #FFFFFF;
+            --md-sys-color-secondary: #C5C6C9; /* Light Gray */
+            --md-sys-color-on-secondary: #2F3033;
+            --md-sys-color-background: #1C1B1F; /* Near-black */
+            --md-sys-color-on-background: #E6E1E5; /* Light Gray Text */
+            --md-sys-color-surface: #2A292E; /* Dark Gray */
+            --md-sys-color-on-surface: #E6E1E5;
+            --md-sys-color-surface-variant: #49454F;
+            --md-sys-color-on-surface-variant: #CAC4D0;
+            --md-sys-color-outline: #938F99;
         }
 
         /* --- Global Styles --- */
@@ -238,9 +238,9 @@
         .btn-filled { background-color: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); }
         .btn-filled:hover { box-shadow: var(--md-sys-elevation-level-1); opacity: 0.9; }
         .btn-outlined { background-color: transparent; color: var(--md-sys-color-primary); border: 1px solid var(--md-sys-color-outline); }
-        .btn-outlined:hover { background-color: rgba(74, 101, 71, 0.08); }
+        .btn-outlined:hover { background-color: rgba(230, 81, 0, 0.08); }
         .btn-text { color: var(--md-sys-color-primary); padding: 10px 12px; background-color: transparent; }
-        .btn-text:hover { background-color: rgba(74, 101, 71, 0.08); }
+        .btn-text:hover { background-color: rgba(230, 81, 0, 0.08); }
 
         /* --- Icon Button (for Theme Toggle) --- */
         .icon-button {
@@ -520,10 +520,6 @@
                     track.style.transform = 'translateX(-' + (slideWidth * targetIndex) + 'px)';
                     currentIndex = targetIndex;
                 };
-
-                const updateButtons = () => {
-                    // This is a looping carousel, so buttons are always active
-                };
                 
                 const startAutoPlay = () => {
                     autoPlayInterval = setInterval(() => {
@@ -565,7 +561,7 @@
                 const randomSeed = Math.floor(Math.random() * 1000) + index;
                 img.src = `https://picsum.photos/seed/${randomSeed}/400/225`;
                 img.onerror = () => {
-                    img.src = 'https://placehold.co/400x225/DFE4D8/424940?text=Image+Error';
+                    img.src = 'https://placehold.co/400x225/49454F/E6E1E5?text=Image+Error';
                 };
             });
         });
