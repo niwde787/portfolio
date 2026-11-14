@@ -85,8 +85,6 @@ section{padding:96px 0}
 .tile{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
 .tile .shot{aspect-ratio:4/5;display:grid;place-items:center;background:radial-gradient(90% 70% at 50% 30%, var(--surface), var(--cyc));position:relative}
 .tile .shot svg{width:62%;height:auto}
-.tile .shot img.scene{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.tile .shot img.photo{width:84%;height:auto;max-height:92%;object-fit:contain;filter:drop-shadow(0 18px 22px rgba(0,0,0,.45))}
 .tile .tag{position:absolute;top:12px;left:12px;color:var(--muted);border:1px dashed var(--line);border-radius:6px;padding:3px 7px;font-size:11px}
 .tile .cap{padding:14px 16px 18px;display:grid;gap:2px}
 .tile .cap b{font-weight:600}
@@ -283,9 +281,18 @@ footer{padding:36px 0 48px;display:flex;justify-content:space-between;flex-wrap:
     <div class="work">
       <article class="tile">
         <div class="shot">
-          <img class="rotator scene" src="images/web/spirits/ao1.webp?v=1" data-images="images/web/spirits/ao1.webp?v=1,images/web/spirits/ao2.webp?v=1,images/web/spirits/champagne-pair.webp?v=1,images/web/spirits/cp06.webp?v=1,images/web/spirits/cp10.webp?v=1,images/web/spirits/harmony.webp?v=1,images/web/spirits/harmony01.webp?v=1,images/web/spirits/harmony02.webp?v=1,images/web/spirits/herencia01.webp?v=1" alt="Spirits bottle renders" width="800" height="1000" decoding="async">
+          <span class="tag mono">Render slot</span>
+          <svg class="spin" viewBox="0 0 120 200" aria-hidden="true">
+            <defs><linearGradient id="b1" x1="0" x2="1"><stop offset="0" stop-color="#3a1d0c"/><stop offset=".35" stop-color="#a5561f"/><stop offset=".6" stop-color="#6a3313"/><stop offset="1" stop-color="#2a1408"/></linearGradient></defs>
+            <ellipse cx="60" cy="192" rx="46" ry="7" fill="#000" opacity=".18"/>
+            <path d="M50,8 h20 v34 q0,10 12,22 q14,14 14,34 v84 q0,8 -8,8 h-56 q-8,0 -8,-8 v-84 q0,-20 14,-34 q12,-12 12,-22 z" fill="url(#b1)"/>
+            <rect x="48" y="4" width="24" height="14" rx="2" fill="#1b1b1b"/>
+            <rect x="30" y="112" width="60" height="50" rx="2" fill="#efe6d4"/>
+            <rect x="36" y="124" width="48" height="4" fill="#a5561f"/><rect x="42" y="134" width="36" height="2.5" fill="#6b6257"/><rect x="46" y="142" width="28" height="2" fill="#6b6257"/>
+            <rect x="40" y="68" width="5" height="110" rx="2.5" fill="#fff" opacity=".3"/>
+          </svg>
         </div>
-        <div class="cap"><b>Spirits &amp; champagne</b><span>Hero shots · clay to final</span></div>
+        <div class="cap"><b>Spirits bottle</b><span>Hero shot · amber glass</span></div>
       </article>
       <article class="tile">
         <div class="shot">
@@ -304,7 +311,15 @@ footer{padding:36px 0 48px;display:flex;justify-content:space-between;flex-wrap:
       </article>
       <article class="tile">
         <div class="shot">
-          <img class="rotator photo" src="images/web/retail-box/package01.webp?v=2" data-images="images/web/retail-box/package01.webp?v=2,images/web/retail-box/package02.webp?v=2,images/web/retail-box/package03.webp?v=2" alt="Retail gift box render" width="900" height="1060" decoding="async">
+          <span class="tag mono">Render slot</span>
+          <svg class="spin" viewBox="0 0 120 200" aria-hidden="true">
+            <ellipse cx="60" cy="186" rx="52" ry="8" fill="#000" opacity=".18"/>
+            <path d="M14,64 L60,46 L106,64 L106,170 L60,188 L14,170 Z" fill="#2b5a3f"/>
+            <path d="M60,82 L106,64 L106,170 L60,188 Z" fill="#1d3f2c"/>
+            <path d="M14,64 L60,46 L106,64 L60,82 Z" fill="#3f7a57"/>
+            <text x="37" y="132" text-anchor="middle" transform="skewY(-21) translate(0,14)" font-family="Big Shoulders Display, Impact, sans-serif" font-weight="900" font-size="15" fill="#e9dfc4">TRAIL</text>
+            <rect x="22" y="146" width="30" height="3" fill="#e9dfc4" transform="skewY(-21) translate(0,14)"/>
+          </svg>
         </div>
         <div class="cap"><b>Retail box</b><span>Packaging mockup · dieline to 3D</span></div>
       </article>
@@ -450,27 +465,6 @@ footer{padding:36px 0 48px;display:flex;justify-content:space-between;flex-wrap:
     g.appendChild(c);
   }
 
-
-  // Rotating previews: show the images in a tile in random order, crossfading every few seconds
-  (function(){
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    document.querySelectorAll('img.rotator').forEach(function(img){
-      var list = (img.dataset.images || '').split(',').filter(Boolean);
-      if (list.length < 2) return;
-      for (var i = list.length - 1; i > 0; i--){ var j = Math.floor(Math.random()*(i+1)); var t = list[i]; list[i] = list[j]; list[j] = t; }
-      list.forEach(function(src){ var p = new Image(); p.src = src; });
-      var idx = 0; img.src = list[0];
-      if (reduceMotion || !window.gsap) return;
-      setInterval(function(){
-        idx = (idx + 1) % list.length;
-        gsap.to(img, {opacity:0, duration:.35, ease:'power1.in', onComplete:function(){
-          img.src = list[idx];
-          gsap.to(img, {opacity:1, duration:.5, ease:'power1.out'});
-        }});
-      }, 3200 + Math.random()*800);
-    });
-  })();
-
   if (!window.gsap) return;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) return;
@@ -532,7 +526,6 @@ footer{padding:36px 0 48px;display:flex;justify-content:space-between;flex-wrap:
   gsap.to('#marquee', {xPercent:-50, ease:'none', scrollTrigger:{trigger:'.marquee', start:'top bottom', end:'bottom top', scrub:.6}});
 
   // Work tiles: products turn slightly on the turntable as you scroll
-  gsap.fromTo('.photo', {y:10}, {y:-10, ease:'none', scrollTrigger:{trigger:'.work', start:'top bottom', end:'bottom top', scrub:true}});
   gsap.utils.toArray('.spin').forEach(function(el, i){
     gsap.fromTo(el, {rotate: i%2 ? 5 : -5, y:12}, {rotate: i%2 ? -5 : 5, y:-12, ease:'none',
       scrollTrigger:{trigger:el, start:'top bottom', end:'bottom top', scrub:true}});
